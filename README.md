@@ -1,0 +1,1 @@
+# github-action-major-release-tagger
