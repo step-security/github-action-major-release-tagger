@@ -82,21 +82,14 @@ runs:
         fetch-depth: 0
         token: ${{ inputs.token }}
 
-    - name: Setup Node
-      uses: actions/setup-node@v7
-      with:
-        node-version: 16
-
     - name: Setup Git Config
       shell: bash
+      env:
+        GIT_USER_NAME: ${{ inputs.git-user-name }}
+        GIT_USER_EMAIL: ${{ inputs.git-user-email }}
       run: |
-        git config --global user.name '${{ inputs.git-user-name }}'
-        git config --global user.email '${{ inputs.git-user-email }}'
-
-    - name: Install Node Dependencies
-      shell: bash
-      working-directory: ${{ github.action_path }}
-      run: npm install
+        git config --global user.name "$GIT_USER_NAME"
+        git config --global user.email "$GIT_USER_EMAIL"
 
     - name: Run Major Release Tagger
       uses: actions/github-script@v9
@@ -109,7 +102,7 @@ runs:
       with:
         github-token: ${{ inputs.token }}
         script: |
-          const { main } = require(process.env.GITHUB_ACTION_PATH + '/src/app.js');
+          const { main } = require(process.env.GITHUB_ACTION_PATH + '/dist/index.js');
 
           const dryRun = JSON.parse(process.env.DRY_RUN);
 

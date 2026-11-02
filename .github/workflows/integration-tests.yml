@@ -20,14 +20,21 @@ jobs:
 
       - name: Install Node Dependencies
         run: |
-          make install-deps
+          npm install
 
       - name: Lint
         run: |
-          make jslint
+          npm run lint
 
       - name: Run Tests
         env:
           LOG_LEVEL: 'debug'
         run: |
-          make test
+          npm run test
+
+  test-positive:
+    needs: [test]
+    uses: ./.github/workflows/test-positive.yml
+    with:
+      ref: ${{ github.ref }}
+      sha: ${{ github.sha }}
