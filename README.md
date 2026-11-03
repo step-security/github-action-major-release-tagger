@@ -71,7 +71,7 @@ Stay organized and efficient with Major Release Tagger - the ultimate GitHub Act
     publish:
       runs-on: ubuntu-latest
       steps:
-        - uses: step-security/github-action-major-release-tagger@v1
+        - uses: step-security/github-action-major-release-tagger@v2
 ```
 
 
