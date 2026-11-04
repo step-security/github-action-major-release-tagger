@@ -195,7 +195,7 @@ test('vtag doesnt have corresponding semver tag', async () => {
   assert.strictEqual(response.reason, RESPONSE_REASON.NO_CHANGES);
 });
 
-test('semver tag in branch and in master', async () => {
+test('semver tag in branch and in main', async () => {
   // prepare
   const repoPath = createRepoDir();
   const gitWrapper = new GitWrapper(repoPath);
@@ -208,14 +208,14 @@ test('semver tag in branch and in master', async () => {
   await gitWrapper.createTag('1.1.0', sha2, false);
   await gitWrapper.createTag('v1', sha2, false);
   await gitWrapper.createBranch('release/v0', sha2, false);
-  await gitWrapper.checkoutBranch('master');
+  await gitWrapper.checkoutBranch('main');
   const sha3 = await createFileAndCommit(gitWrapper, repoPath);
   await gitWrapper.createTag('2.0.0', sha3, false);
   await gitWrapper.createTag('v2', sha3, false);
   await gitWrapper.checkoutBranch('release/v0');
   const sha4 = await createFileAndCommit(gitWrapper, repoPath);
   await gitWrapper.createTag('1.2.1', sha4, false);
-  await gitWrapper.checkoutBranch('master');
+  await gitWrapper.checkoutBranch('main');
   const sha5 = await createFileAndCommit(gitWrapper, repoPath);
   await gitWrapper.createTag('2.1.0', sha5, false);
 
