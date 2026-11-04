@@ -1,0 +1,40 @@
+name: "Integration Tests"
+
+on:
+  workflow_dispatch: {}
+
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 20
+
+      - name: Install Node Dependencies
+        run: |
+          npm install
+
+      - name: Lint
+        run: |
+          npm run lint
+
+      - name: Run Tests
+        env:
+          LOG_LEVEL: 'debug'
+        run: |
+          npm run test
+
+  test-positive:
+    needs: [test]
+    uses: ./.github/workflows/test-positive.yml
+    with:
+      ref: ${{ github.ref }}
+      sha: ${{ github.sha }}
